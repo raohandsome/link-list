@@ -48,7 +48,7 @@ void Link::traverLink()
 
 }
 
-Node Link::findMiddle()
+Node Link::findMiddle()//用快慢指针找中间点
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -70,4 +70,35 @@ Node Link::findMiddle()
 	}
 	
 	return *slow;
+}
+
+Node* Link::headNode()
+{
+	return m_Head;
+}
+
+void Link::mergeLink(Link link)
+{
+	Node *p1 = m_Head;
+	Node *p2 = link.headNode()->Next;
+	while (p1->Next&&p2)
+	{
+		if (p1->Next->Date <=p2->Date)
+		{
+			p1 = p1->Next;
+		}
+		else
+		{
+			Node *temp = p2->Next;
+			p2->Next = p1->Next;
+			p1->Next = p2;
+			p1 = p1->Next;
+			p2 = temp;
+			m_iLength++;
+		}
+	}
+	if (p2)
+	{
+		p1->Next = p2;
+	}
 }

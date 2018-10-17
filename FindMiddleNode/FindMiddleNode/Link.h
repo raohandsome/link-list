@@ -11,6 +11,8 @@ public:
 	void addNode(Node *node);
 	void traverLink();
 	Node findMiddle();
+	Node* headNode();
+	void mergeLink(Link link);
 private:
 	Node * m_Head;
 	int m_iLength;
