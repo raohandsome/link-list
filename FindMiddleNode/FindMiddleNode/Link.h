@@ -12,7 +12,7 @@ public:
 	void traverLink();
 	Node findMiddle();
 	Node* headNode();
-	void mergeLink(Link link);
+	void mergeLink(Link &link);
 private:
 	Node * m_Head;
 	int m_iLength;

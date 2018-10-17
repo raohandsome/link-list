@@ -77,7 +77,7 @@ Node* Link::headNode()
 	return m_Head;
 }
 
-void Link::mergeLink(Link link)
+void Link::mergeLink(Link &link)
 {
 	Node *p1 = m_Head;
 	Node *p2 = link.headNode()->Next;
