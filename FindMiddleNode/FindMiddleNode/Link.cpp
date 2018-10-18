@@ -102,3 +102,106 @@ void Link::mergeLink(Link &link)
 		p1->Next = p2;
 	}
 }
+
+bool Link::checkLoop()//检测是否有环
+{
+	Node *fast = m_Head;
+	Node *slow = m_Head;
+	while (fast->Next)
+	{
+		fast = fast->Next->Next;
+		slow = slow->Next;
+		if (slow == fast)
+		{
+			break;
+		}	
+	}
+	return fast->Next == nullptr ? false : true;
+}
+
+void Link::creatLoop(int index)//产生环路
+{
+	Node *p = m_Head;
+	Node *temp=nullptr;
+	int i = 0;
+	while (p->Next)
+	{
+		p = p->Next;
+		i++;
+		if (i == index)
+		{
+			temp = p;
+		}
+	}
+	p->Next = temp;
+}
+
+int Link::loopLength()//环的长度
+{
+	Node *fast = m_Head;
+	Node *slow = m_Head;
+	int length = 0;
+	while (fast->Next)
+	{
+		fast = fast->Next->Next;
+		slow = slow->Next;
+		length++;
+		if (slow == fast)
+		{
+			break;
+		}
+	}
+	
+	return length;
+	
+}
+
+Node Link::LoopStart()//入环结点
+{
+	Node *fast = m_Head;
+	Node *slow = m_Head;
+	while (fast->Next)
+	{
+		fast = fast->Next->Next;
+		slow = slow->Next;
+		if (slow == fast)
+		{
+			break;
+		}
+	}
+	Node *temp = m_Head;
+	while (temp != slow)
+	{
+		temp = temp->Next;
+		slow = slow->Next;
+	}
+	return *slow;
+
+}
+
+int Link::LinkLoopLength()//环存在时，链表长度
+{
+	Node *fast = m_Head;
+	Node *slow = m_Head;
+	int loopLength = 0;
+	while (fast->Next)
+	{
+		fast = fast->Next->Next;
+		slow = slow->Next;
+		loopLength++;
+		if (slow == fast)
+		{
+			break;
+		}
+	}
+	Node *temp = m_Head;
+	int i = 0;
+	while (temp != slow)
+	{
+		temp = temp->Next;
+		slow = slow->Next;
+		i++;
+	}
+
+	return loopLength+i-1;
+}
