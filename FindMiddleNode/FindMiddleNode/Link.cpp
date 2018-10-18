@@ -12,6 +12,15 @@ Link::Link()
 Link::~Link()
 {
 	Node *p = m_Head->Next;
+	if (checkLoop())
+	{
+		Node *node = LoopStart();
+		while (node->Next != node)
+		{
+			node = node->Next;
+		}
+		node->Next = nullptr;
+	}
 	while (p)
 	{
 		Node *temp = p->Next;
@@ -119,7 +128,7 @@ bool Link::checkLoop()//检测是否有环
 	return fast->Next == nullptr ? false : true;
 }
 
-void Link::creatLoop(int index)//产生环路
+void Link::creatLoop(const int index)//产生环路
 {
 	Node *p = m_Head;
 	Node *temp=nullptr;
@@ -136,27 +145,33 @@ void Link::creatLoop(int index)//产生环路
 	p->Next = temp;
 }
 
-int Link::loopLength()//环的长度
+const int Link::loopLength()//环的长度
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
-	int length = 0;
+	int length = 1;
 	while (fast->Next)
 	{
 		fast = fast->Next->Next;
 		slow = slow->Next;
-		length++;
+		//length++;
 		if (slow == fast)
 		{
+			//cout << "相遇点：" << slow->Date << endl;
 			break;
 		}
 	}
-	
+	Node *temp = slow;
+	while (slow->Next!=temp)
+	{
+		slow = slow->Next;
+		length++;
+	}
 	return length;
 	
 }
 
-Node Link::LoopStart()//入环结点
+Node* Link::LoopStart()//入环结点
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -175,33 +190,49 @@ Node Link::LoopStart()//入环结点
 		temp = temp->Next;
 		slow = slow->Next;
 	}
-	return *slow;
+	return slow;
 
 }
 
 int Link::LinkLoopLength()//环存在时，链表长度
 {
-	Node *fast = m_Head;
+	Node *node = LoopStart();
+	int length1 = loopLength();
+	Node *temp = m_Head;
+	int length2 = 0;
+	while (temp ->Next!= node)
+	{
+		temp = temp->Next;
+		length2++;
+	}
+	return length1 + length2;
+	/*Node *fast = m_Head;
 	Node *slow = m_Head;
-	int loopLength = 0;
+	int loopLength = 1;
 	while (fast->Next)
 	{
 		fast = fast->Next->Next;
 		slow = slow->Next;
-		loopLength++;
 		if (slow == fast)
 		{
 			break;
 		}
 	}
-	Node *temp = m_Head;
-	int i = 0;
-	while (temp != slow)
+	Node *temp = slow;
+	while (slow->Next != temp)
 	{
-		temp = temp->Next;
 		slow = slow->Next;
+		loopLength++;
+	}
+	
+	int i = 0;
+	Node *temp1 = m_Head;
+	while (temp1!= temp)
+	{
+		temp= temp->Next;
+		temp1 = temp1->Next;
 		i++;
 	}
 
-	return loopLength+i-1;
+	return loopLength+i-1;*/
 }
