@@ -46,7 +46,7 @@ void Link::addNode(Node * node)
 	m_iLength++;
 }
 
-void Link::traverLink()
+void Link::traverLink() const
 {
 	Node *p = m_Head->Next;
 	while (p)
@@ -57,7 +57,7 @@ void Link::traverLink()
 
 }
 
-Node Link::findMiddle()//用快慢指针找中间点
+Node Link::findMiddle() const//用快慢指针找中间点
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -81,12 +81,12 @@ Node Link::findMiddle()//用快慢指针找中间点
 	return *slow;
 }
 
-Node* Link::headNode()
+Node* Link::headNode() const
 {
 	return m_Head;
 }
 
-void Link::mergeLink(Link &link)
+void Link::mergeLink(Link &link) 
 {
 	Node *p1 = m_Head;
 	Node *p2 = link.headNode()->Next;
@@ -112,7 +112,7 @@ void Link::mergeLink(Link &link)
 	}
 }
 
-bool Link::checkLoop()//检测是否有环
+bool Link::checkLoop() const//检测是否有环
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -120,15 +120,21 @@ bool Link::checkLoop()//检测是否有环
 	{
 		fast = fast->Next->Next;
 		slow = slow->Next;
+		if (fast == nullptr||fast->Next==nullptr)
+		{
+			return false;
+			break;
+		}
 		if (slow == fast)
 		{
+			return true;
 			break;
-		}	
+		}
 	}
-	return fast->Next == nullptr ? false : true;
+	//return false;
 }
 
-void Link::creatLoop(const int index)//产生环路
+void Link::creatLoop(const int index) const//产生环路
 {
 	Node *p = m_Head;
 	Node *temp=nullptr;
@@ -145,7 +151,7 @@ void Link::creatLoop(const int index)//产生环路
 	p->Next = temp;
 }
 
-const int Link::loopLength()//环的长度
+ int Link::loopLength() const//环的长度
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -171,7 +177,7 @@ const int Link::loopLength()//环的长度
 	
 }
 
-Node* Link::LoopStart()//入环结点
+Node* Link::LoopStart() const//入环结点
 {
 	Node *fast = m_Head;
 	Node *slow = m_Head;
@@ -194,7 +200,7 @@ Node* Link::LoopStart()//入环结点
 
 }
 
-int Link::LinkLoopLength()//环存在时，链表长度
+int Link::LinkLoopLength() const//环存在时，链表长度
 {
 	Node *node = LoopStart();
 	int length1 = loopLength();
@@ -235,4 +241,20 @@ int Link::LinkLoopLength()//环存在时，链表长度
 	}
 
 	return loopLength+i-1;*/
+}
+
+Node & Link::backNode(const int index) const
+{
+	Node *p = m_Head;
+	Node *q = m_Head;
+	for (int i = 1; i < index; i++)
+	{
+		q = q->Next;
+	}
+	while (q->Next != nullptr)
+	{
+		p = p->Next;
+		q = q->Next;
+	}
+	return *p;
 }

@@ -9,15 +9,16 @@ public:
 	Link();
 	~Link();
 	void addNode(Node *node);
-	void traverLink();
-	Node findMiddle();
-	Node* headNode();
-	void mergeLink(Link &link);
-	bool checkLoop();//检测是否有环村子
-	void creatLoop( const int index);//搭建一个环
-	const int loopLength();//环的长度
-	Node* LoopStart();//入环结点
-	int LinkLoopLength();//环存在时，链表长度
+	void traverLink() const;
+	Node findMiddle()const;
+	Node* headNode () const;
+	void mergeLink (Link &link) ;
+	bool checkLoop()const;//检测是否有环村子
+	void creatLoop( const int index) const;//搭建一个环
+	int loopLength() const;//环的长度
+	Node* LoopStart() const;//入环结点
+	int LinkLoopLength() const;//环存在时，链表长度
+	Node& backNode(const int index) const;
 private:
 	Node * m_Head;
 	int m_iLength;
